@@ -1,8 +1,8 @@
 import hashlib
 import json
+import logging
 import os
 import traceback
-import logging
 from io import BytesIO
 
 import boto3
