@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "sonolus-image-server"
+version = "0.1.0"
+description = "Image processing server for sonolus-fastapi"
+authors = ["sevenc-nanashi <sevenc-nanashi@sevenbot.jp>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+fastapi = "^0.75.2"
+boto3 = "^1.22.5"
+python-dotenv = "^0.20.0"
+uvicorn = "^0.17.6"
+Pillow = "^9.1.0"
+
+[tool.poetry.dev-dependencies]
+black = "^22.3.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
