@@ -9,7 +9,7 @@ import boto3
 import botocore
 import botocore.exceptions
 from dotenv import load_dotenv
-from fastapi import FastAPI, HTTPException, Request, Response
+from fastapi import FastAPI, Request, Response
 from PIL import Image
 from pydantic import BaseModel
 
