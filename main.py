@@ -4,6 +4,7 @@ import logging
 import os
 import traceback
 from io import BytesIO
+from typing_extensions import Literal
 
 import boto3
 import botocore
@@ -14,6 +15,10 @@ from PIL import Image
 from pydantic import BaseModel
 
 load_dotenv()
+
+
+class RootResponse(BaseModel):
+    status: Literal["ok"]
 
 
 class ConvertParams(BaseModel):
@@ -49,7 +54,7 @@ async def exception_handler(_request: Request, exc: Exception):
 
 
 @app.get("/")
-async def get_root():
+async def get_root() -> RootResponse:
     return {
         "status": "ok",
     }
