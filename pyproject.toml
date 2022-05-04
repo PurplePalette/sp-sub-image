@@ -16,6 +16,8 @@ Pillow = "^9.1.0"
 [tool.poetry.dev-dependencies]
 black = "^22.3.0"
 pyproject-flake8 = "^0.0.1-alpha.4"
+pytest = "^7.1.2"
+requests = "^2.27.1"
 
 [tool.flake8]
 ignore="E203,W503"
