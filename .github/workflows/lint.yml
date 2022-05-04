@@ -1,0 +1,28 @@
+on:
+  push:
+    paths:
+      - "*.py"
+  pull_request:
+    branches:
+      - "main"
+
+jobs:
+  flake8:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Setup Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.8"
+      - name: Install poetry
+        run: |
+          pip install poetry
+      - name: Install dependencies
+        run: |
+          poetry install
+      - name: Run flake8
+        run: |
+          poetry run pflake8 .
