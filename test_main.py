@@ -27,7 +27,7 @@ def test_get_root():
     ("filepath", "result_hash"),
     [
         ("./test_assets/red_2_1.png", "fa19c10d5cba06b8c70550a88f8b4e72c84d0bef"),
-        ("./test_assets/blue_1_2.png", "284c758c1c49ae2bd0a6e0cbcd93dda969df9c12"),
+        ("./test_assets/blue_1_2.png", "17374a3ecdb24dc09aec9086515ad0456a192222"),
         ("./test_assets/green_1_1.png", "66350e3f9150e89003ff579c1b76d5fdd375c91e"),
     ],
 )

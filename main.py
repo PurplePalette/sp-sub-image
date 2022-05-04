@@ -83,9 +83,10 @@ async def post_convert(item: ConvertParams) -> ConvertResponse:
         base = Image.new("RGB", (512, 512), color)
         if image.size[0] > image.size[1]:
             resized = image.resize((512, round(512 * (image.size[1] / image.size[0]))))
+            base.paste(resized, (0, (512 - resized.size[1]) // 2))
         else:
             resized = image.resize((round(512 * (image.size[0] / image.size[1])), 512))
-        base.paste(resized, (0, (512 - resized.size[1]) // 2))
+            base.paste(resized, ((512 - resized.size[0]) // 2, 0))
         processed_image = base
     image_io = BytesIO()
     processed_image.save(image_io, format="PNG")
