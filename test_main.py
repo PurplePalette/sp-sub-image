@@ -24,18 +24,24 @@ def test_get_root():
 
 
 @pytest.mark.parametrize(
-    ("filepath", "result_hash"),
+    ("filetype", "filepath"),
     [
-        ("./test_assets/red_2_1.png", "fa19c10d5cba06b8c70550a88f8b4e72c84d0bef"),
-        ("./test_assets/blue_1_2.png", "17374a3ecdb24dc09aec9086515ad0456a192222"),
-        ("./test_assets/green_1_1.png", "66350e3f9150e89003ff579c1b76d5fdd375c91e"),
+        ("LevelCover", "./test_assets/red_2_1.png"),
+        ("LevelCover", "./test_assets/blue_1_2.png"),
+        ("LevelCover", "./test_assets/green_1_1.png"),
+        ("EngineThumbnail", "./test_assets/red_2_1.png"),
+        ("SkinThumbnail", "./test_assets/red_2_1.png"),
+        ("EffectThumbnail", "./test_assets/red_2_1.png"),
+        ("ParticleThumbnail", "./test_assets/red_2_1.png"),
     ],
 )
-def test_post_convert(filepath: str, result_hash: str):
+def test_post_convert(filetype: str, filepath: str):
     with open(filepath, "rb") as f:
         image_hash = hashlib.sha1(f.read()).hexdigest()
         f.seek(0)
-        s3_bucket.put_object(Key="LevelCover/" + image_hash, Body=f)
-    response = client.post("/convert", json={"hash": image_hash})
+        s3_bucket.put_object(Key=filetype + "/" + image_hash, Body=f)
+    response = client.post("/convert", json={"type": filetype, "hash": image_hash})
+    response_hash = response.json()["hash"]
     assert response.status_code == 200
-    assert response.json() == {"hash": result_hash}
+    modified_data = s3_bucket.Object(filetype + "/" + response_hash).get()["Body"]
+    assert hashlib.sha1(modified_data.read()).hexdigest() == response_hash

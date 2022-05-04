@@ -22,6 +22,7 @@ class RootResponse(BaseModel):
 
 
 class ConvertParams(BaseModel):
+    type: str
     hash: str
 
 
@@ -63,7 +64,7 @@ async def get_root() -> RootResponse:
 @app.post("/convert")
 async def post_convert(item: ConvertParams) -> ConvertResponse:
     logger.info(f"Received request for {item.hash}")
-    object = s3_bucket.Object("LevelCover/" + item.hash)
+    object = s3_bucket.Object(item.type + "/" + item.hash)
     try:
         logger.info(f"Downloading {item.hash}")
         body = object.get()["Body"]
@@ -95,7 +96,7 @@ async def post_convert(item: ConvertParams) -> ConvertResponse:
     image_hash = hashlib.sha1(image_io.getvalue()).hexdigest()
     logger.info(f"Uploading {image_hash}")
     s3_bucket.put_object(
-        Key="LevelCover/" + image_hash,
+        Key=item.type + "/" + image_hash,
         Body=image_io.getvalue(),
         ContentType="image/png",
     )
