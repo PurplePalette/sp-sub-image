@@ -24,7 +24,15 @@ jobs:
           poetry install
       - name: Start minio
         run: |
-          docker-compose up -d minio createbuckets
+          docker compose up -d minio createbuckets
+        env:
+          PORT_MINIO: 9000
+          PORT_MINIO_CONSOLE: 9001
+          VOLUME_MINIO_PATH: './minio_data'
+          S3_ENDPOINT: "http://127.0.0.1:9000"
+          S3_BUCKET: "sonolus"
+          S3_KEY: "S3_KEY"
+          S3_SECRET: "S3_SECRET"
       - name: Run tests
         run: |
           poetry run pytest
