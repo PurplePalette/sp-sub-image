@@ -1,2 +1,7 @@
 .venv
 .env
+minio_data
+.github
+.git
+.pytest_cache
+test_assets
