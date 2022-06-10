@@ -63,10 +63,10 @@ async def get_root() -> RootResponse:
 
 @app.post("/convert")
 async def post_convert(item: ConvertParams) -> ConvertResponse:
-    logger.info(f"Received request for {item.hash}")
+    logger.info(f"Received request for {item.type}/{item.hash}")
     object = s3_bucket.Object(item.type + "/" + item.hash)
     try:
-        logger.info(f"Downloading {item.hash}")
+        logger.info(f"Downloading {item.type}/{item.hash}")
         body = object.get()["Body"]
     except botocore.exceptions.ClientError as e:
         if e.response["Error"]["Code"] == "NoSuchKey":
@@ -94,13 +94,13 @@ async def post_convert(item: ConvertParams) -> ConvertResponse:
     image_io.seek(0)
 
     image_hash = hashlib.sha1(image_io.getvalue()).hexdigest()
-    logger.info(f"Uploading {image_hash}")
+    logger.info(f"Uploading {item.type}/{image_hash}")
     s3_bucket.put_object(
         Key=item.type + "/" + image_hash,
         Body=image_io.getvalue(),
         ContentType="image/png",
     )
-    logger.info(f"Uploaded {image_hash}")
+    logger.info(f"Uploaded {item.type}/{image_hash}")
     return {
         "hash": image_hash,
     }
